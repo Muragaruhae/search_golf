@@ -24,7 +24,6 @@ class Home extends React.Component {
     error: false,
     loading: false
   };
-
   onFormSubmit = async event => {
     try {
       event.preventDefault();
@@ -46,8 +45,8 @@ class Home extends React.Component {
         plans: response.data.plans
       });
       this.setState({ loading: false });
-    } catch (e) {
-      this.setState({ error: e });
+    } catch (error) {
+      this.setState({ error: error });
     }
   };
 
