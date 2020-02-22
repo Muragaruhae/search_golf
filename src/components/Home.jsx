@@ -1,10 +1,6 @@
 import React from "react";
-import "./Common.css";
-import "semantic-ui-css/semantic.min.css";
 import DatePicker, { registerLocale } from "react-datepicker";
 import ja from "date-fns/locale/ja";
-import "react-datepicker/dist/react-datepicker.css";
-import addDays from "date-fns/addDays";
 import axios from "axios";
 import format from "date-fns/format";
 import Result from "./Result";
