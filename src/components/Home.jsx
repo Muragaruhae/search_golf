@@ -1,25 +1,27 @@
 import React from "react";
+import "./Common.css";
+import "semantic-ui-css/semantic.min.css";
 import DatePicker, { registerLocale } from "react-datepicker";
 import ja from "date-fns/locale/ja";
+import "react-datepicker/dist/react-datepicker.css";
+import addDays from "date-fns/addDays";
 import axios from "axios";
 import format from "date-fns/format";
 import Result from "./Result";
 import Loading from "./Loading";
-
-import "react-datepicker/dist/react-datepicker.css";
 
 const Today = new Date();
 registerLocale("ja", ja);
 
 class Home extends React.Component {
   state = {
-    date: new Date(),
+    date: addDays(new Date(), 14),
     budget: "12000",
     departure: "1",
     duration: "90",
     planCount: 0,
     plans: null,
-    error: null,
+    error: false,
     loading: false
   };
 
@@ -28,25 +30,22 @@ class Home extends React.Component {
       event.preventDefault();
       this.setState({ loading: true });
 
-      const response = await axios.get(
-        "https://2xys0pugw7.execute-api.us-east-2.amazonaws.com/production",
-        {
-          params: {
-            date: format(this.state.date, "yyyyMMdd"),
-            budget: this.state.budget,
-            departure: this.state.departure,
-            duration: this.state.duration
-          }
+      const response = await axios.get("https://api.myjson.com/bins/p2tnu", {
+        params: {
+          date: format(this.state.date, "yyyyMMdd"),
+          budget: this.state.budget,
+          departure: this.state.departure,
+          duration: this.state.duration
         }
-      );
+      });
       this.setState({
         planCount: response.data.count,
         plans: response.data.plans
       });
-    } catch (e) {
-      this.setState({ error: e });
+      this.setState({ loading: false });
+    } catch (error) {
+      this.setState({ error: error });
     }
-    this.setState({ loading: false });
   };
 
   render() {
