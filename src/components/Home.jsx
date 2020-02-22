@@ -10,20 +10,23 @@ import format from "date-fns/format";
 import Result from "./Result";
 import Loading from "./Loading";
 
+import "react-datepicker/dist/react-datepicker.css";
+
 const Today = new Date();
 registerLocale("ja", ja);
 
 class Home extends React.Component {
   state = {
-    date: addDays(new Date(), 14),
+    date: new Date(),
     budget: "12000",
     departure: "1",
     duration: "90",
     planCount: 0,
     plans: null,
-    error: false,
+    error: null,
     loading: false
   };
+
   onFormSubmit = async event => {
     try {
       event.preventDefault();
@@ -44,10 +47,10 @@ class Home extends React.Component {
         planCount: response.data.count,
         plans: response.data.plans
       });
-      this.setState({ loading: false });
-    } catch (error) {
-      this.setState({ error: error });
+    } catch (e) {
+      this.setState({ error: e });
     }
+    this.setState({ loading: false });
   };
 
   render() {
@@ -118,7 +121,9 @@ class Home extends React.Component {
               </button>
             </div>
           </form>
+
           <Loading loading={this.state.loading} />
+
           <Result
             plans={this.state.plans}
             planCount={this.state.planCount}
