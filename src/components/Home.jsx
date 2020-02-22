@@ -30,14 +30,17 @@ class Home extends React.Component {
       event.preventDefault();
       this.setState({ loading: true });
 
-      const response = await axios.get("https://api.myjson.com/bins/p2tnu", {
-        params: {
-          date: format(this.state.date, "yyyyMMdd"),
-          budget: this.state.budget,
-          departure: this.state.departure,
-          duration: this.state.duration
+      const response = await axios.get(
+        " https://2xys0pugw7.execute-api.us-east-2.amazonaws.com/production",
+        {
+          params: {
+            date: format(this.state.date, "yyyyMMdd"),
+            budget: this.state.budget,
+            departure: this.state.departure,
+            duration: this.state.duration
+          }
         }
-      });
+      );
       this.setState({
         planCount: response.data.count,
         plans: response.data.plans
